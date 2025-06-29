@@ -1,6 +1,6 @@
 from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtGui import QAction, QIcon, QKeySequence, QPageLayout
-from PyQt6.QtWidgets import QApplication, QCheckBox, QLabel, QMainWindow, QStatusBar, QToolBar, QTextEdit, QVBoxLayout, \
+from PyQt6.QtGui import QAction, QIcon, QKeySequence, QPageLayout, QFont
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, QToolBar, QPlainTextEdit, QVBoxLayout, \
     QHBoxLayout, QStackedLayout, QPushButton, QWidget
 
 from base64 import b64decode
@@ -18,9 +18,12 @@ class MainWindow(QMainWindow):
 
         pagelayout = QVBoxLayout()
         button_layout = QHBoxLayout()
-        self.txt = QTextEdit()
-        self.txt.setFontFamily("Monospace")
-        self.txt.setFontPointSize(10)
+        font = QFont()
+        font.setFamily("monospace")
+        font.setPointSize(10)
+        self.txt = QPlainTextEdit()
+        self.txt.setFont(font)
+
         self.txtspace = QStackedLayout()
         self.txtspace.addWidget(self.txt)
 
