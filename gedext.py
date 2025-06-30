@@ -1,7 +1,7 @@
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QAction, QIcon, QKeySequence, QPageLayout, QFont
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, QToolBar, QPlainTextEdit, QVBoxLayout, \
-    QHBoxLayout, QStackedLayout, QPushButton, QWidget, QLabel
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, QDialog, QPlainTextEdit, QVBoxLayout, \
+    QHBoxLayout, QStackedLayout, QPushButton, QWidget, QLabel, QDialogButtonBox
 
 from base64 import b64decode
 import json
@@ -9,7 +9,7 @@ import json
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 
-version = '0.2'
+version = 'v0.2 alpha'
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -53,8 +53,12 @@ class MainWindow(QMainWindow):
         btn.pressed.connect(self.btn_clear_clicked)
         button_layout.addWidget(btn)
 
-        #toolbar = QToolBar("Ready")
-        #self.addToolBar(toolbar)
+        menu = self.menuBar()
+        file_menu = menu.addMenu("&File")
+        help_menu = menu.addMenu("&Help")
+        actn_about = QAction("&About", self)
+        actn_about.triggered.connect(self.actn_about_clicked)
+        help_menu.addAction(actn_about)
 
         widget = QWidget()
         widget.setLayout(pagelayout)
@@ -65,6 +69,22 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(widget)
         self.setStatusBar(self.stbar)
+
+    def actn_about_clicked(self):
+        dlg = QDialog(self)
+        dlg.setFixedSize(500,500)
+        dlg.setWindowTitle("About Gedext")
+
+        qbtn = QDialogButtonBox.StandardButton.Ok
+        dlg.buttonBox = QDialogButtonBox(qbtn)
+
+        layout = QVBoxLayout()
+        message = QLabel(version)
+        layout.addWidget(message)
+        layout.addWidget(dlg.buttonBox)
+        dlg.setLayout(layout)
+
+        dlg.exec()
 
     def btn_clear_clicked(self):
         self.txt.setPlainText('')

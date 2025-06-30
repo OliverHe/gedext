@@ -19,7 +19,7 @@ Currently there are four buttons:
 2. Get the XML working
 3. Convert buttons to QAction's
 4. Add those actions to a File menu
-5. Add a help --> About menu
+5. Expand about dialog / move to different file
 6. Think about security implications (maybe I should do that sooner)
 7. Filter out binary MIME types when decoding base64
 8. Handoff binary results after base64 decoding to system
