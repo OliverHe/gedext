@@ -1,7 +1,7 @@
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QAction, QIcon, QKeySequence, QPageLayout, QFont
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, QToolBar, QPlainTextEdit, QVBoxLayout, \
-    QHBoxLayout, QStackedLayout, QPushButton, QWidget
+    QHBoxLayout, QStackedLayout, QPushButton, QWidget, QLabel
 
 from base64 import b64decode
 import json
@@ -9,6 +9,7 @@ import json
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 
+version = '0.2'
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -46,6 +47,12 @@ class MainWindow(QMainWindow):
         btn.pressed.connect(self.btn_xml_clicked)
         button_layout.addWidget(btn)
 
+        button_layout.addWidget(QLabel())
+
+        btn = QPushButton("Clear")
+        btn.pressed.connect(self.btn_clear_clicked)
+        button_layout.addWidget(btn)
+
         #toolbar = QToolBar("Ready")
         #self.addToolBar(toolbar)
 
@@ -54,9 +61,14 @@ class MainWindow(QMainWindow):
 
         self.stbar = QStatusBar()
         self.stbar.showMessage("Insert text and press one of the buttons")
+        self.stbar.addPermanentWidget(QLabel(version))
 
         self.setCentralWidget(widget)
         self.setStatusBar(self.stbar)
+
+    def btn_clear_clicked(self):
+        self.txt.setPlainText('')
+        self.stbar.showMessage('Cleared all text')
 
     def btn_b64_clicked(self):
         # Get all the text in the window

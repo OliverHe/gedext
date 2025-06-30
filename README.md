@@ -10,11 +10,15 @@ Currently there are four buttons:
 * X509: For reading PEM encoded certificates
 * XML: For XML validation and "beautifying"
 
+## Versions
+* 0.1 - First version for github
+* 0.2 - Show version in statusbar, switch to plaintextedit, use other cert for testing
+
 ## TODO
 1. Cleanup specific x509 output
 2. Get the XML working
 3. Convert buttons to QAction's
-4. Add those actions in a menu
+4. Add those actions to a File menu
 5. Add a help --> About menu
 6. Think about security implications (maybe I should do that sooner)
 7. Filter out binary MIME types when decoding base64
@@ -28,8 +32,9 @@ Currently there are four buttons:
     * Varying kinds of certificate validation
     * JSON minifying
     * XML minifying
-14. Figure out why font seems to ignored sometimes
+14. Figure out why font seems to ignored sometimes -testing-
 15. Split main python file according to function
+16. Figure out why title doesn't work in applications overview.
 
 ## Packaging
 
