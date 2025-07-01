@@ -1,7 +1,9 @@
-from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtGui import QAction, QIcon, QKeySequence, QPageLayout, QFont
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, QDialog, QPlainTextEdit, QVBoxLayout, \
-    QHBoxLayout, QStackedLayout, QPushButton, QWidget, QLabel, QDialogButtonBox
+#from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtGui import QAction, QFont
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, QPlainTextEdit, QVBoxLayout, \
+    QHBoxLayout, QStackedLayout, QPushButton, QWidget, QLabel
+
+import globals
 
 from base64 import b64decode
 import json
@@ -9,7 +11,7 @@ import json
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 
-version = 'v0.2 alpha'
+from aboutDialog import AboutDialog
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -65,25 +67,13 @@ class MainWindow(QMainWindow):
 
         self.stbar = QStatusBar()
         self.stbar.showMessage("Insert text and press one of the buttons")
-        self.stbar.addPermanentWidget(QLabel(version))
+        self.stbar.addPermanentWidget(QLabel(globals.version))
 
         self.setCentralWidget(widget)
         self.setStatusBar(self.stbar)
 
     def actn_about_clicked(self):
-        dlg = QDialog(self)
-        dlg.setFixedSize(500,500)
-        dlg.setWindowTitle("About Gedext")
-
-        qbtn = QDialogButtonBox.StandardButton.Ok
-        dlg.buttonBox = QDialogButtonBox(qbtn)
-
-        layout = QVBoxLayout()
-        message = QLabel(version)
-        layout.addWidget(message)
-        layout.addWidget(dlg.buttonBox)
-        dlg.setLayout(layout)
-
+        dlg = AboutDialog()
         dlg.exec()
 
     def btn_clear_clicked(self):
