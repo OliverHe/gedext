@@ -27,6 +27,7 @@ Currently there are four buttons:
 * json: For JSON validation and "beautifying"
 * X509: For reading PEM encoded certificates
 * XML: For XML validation and "beautifying"
+* Clear: For clearing all content
 
 ## Versions
 * 0.1 - First version for github
