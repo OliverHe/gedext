@@ -33,38 +33,45 @@ Currently there are four buttons:
 * 0.1 - First version for github
 * 0.2 - Show version in statusbar, switch to plaintextedit, use other cert for testing
 * 0.3 - Use different file for about dialog which also necessitates a globals file.
+* 0.4 - Expand about dialog, use minidom for xml prettyprinting.
 
 ## TODO
 1. Cleanup specific x509 output
-2. Get the XML working
-3. Convert buttons to QAction's
-4. Add those actions to a File menu
-5. Think about security implications (maybe I should do that sooner)
-6. Filter out binary MIME types when decoding base64
-7. Handoff binary results after base64 decoding to system
+2. Convert buttons to QAction's
+3. Add those actions to a File menu
+4. Think about security implications (maybe I should do that sooner)
+5. Filter out binary MIME types when decoding base64
+6. Handoff binary results after base64 decoding to system
+7. Figure out packaging for Linux
 8. Figure out packaging for Windows
 9. Figure out packaging for MacOS
-10. Expand on Linux packaging
-11. Maybe do an RPM?
-12. Expand by allowing:
+10. Expand by allowing:
     * Base64 encoding
     * Varying kinds of certificate validation
     * JSON minifying
     * XML minifying
-13. Figure out why font seems to ignored sometimes -testing-
-14. Split main python file according to function
-15. Figure out why title doesn't work in applications overview.
-16. See if I can apply the conversion only on selected text.
+12. Split main python file according to function
+13. Figure out why title doesn't work in applications overview.
+14. See if I can apply the conversion only on selected text.
+15. Wonder about replacing minidom with lxml
 
 ## Packaging
-
+These are mostly as a reminder to myself
 ### Linux
-
 #### First run
-
-This is mostly as a reminder to myself
 
     python3 -m venv packenv
     source packenv/bin/activate
     pip3 install PyQt6 PyInstaller cryptography
     pyinstaller gedext.py
+
+### Windows
+#### First run
+* Install Git for Windows
+* Install Python as admin and added to PATH
+
+Use Git Bash as follows:
+
+    python -m venv packenv
+    . packenv/Scripts/Activate
+    Pyinstaller.exe --onefile --noconsole gedext.py

@@ -1,15 +1,16 @@
 #from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QAction, QFont
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, QPlainTextEdit, QVBoxLayout, \
-    QHBoxLayout, QStackedLayout, QPushButton, QWidget, QLabel
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, \
+    QPlainTextEdit, QVBoxLayout, QHBoxLayout, QStackedLayout, QPushButton, \
+    QWidget, QLabel
 
 import globals
 
 from base64 import b64decode
 import json
-
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
+import xml.dom.minidom
 
 from aboutDialog import AboutDialog
 
@@ -162,14 +163,34 @@ class MainWindow(QMainWindow):
                     for item in attrb.value._general_names:
                         outp = outp + item.value + "\n     "
 
-                if attrb.oid._name in ['keyUsage', 'basicConstraints', 'subjectKeyIdentifier',
+                if attrb.oid._name in ['keyUsage',
+                                       'basicConstraints',
+                                       'subjectKeyIdentifier',
                                        'authorityKeyIdentifier']:
                     outp = outp + str(attrb.value) + "\n"
 
             self.txt.setPlainText(outp)
 
     def btn_xml_clicked(self):
-        self.stbar.showMessage("Still working on that")
+        # Get all the text in the window
+        txtstr = self.txt.toPlainText()
+
+        # If there is nothing to process, return early
+        if not txtstr:
+            self.stbar.showMessage("Need more input")
+            return
+        try:
+            dom = xml.dom.minidom.parseString(txtstr)
+            xmlo = dom.toprettyxml()
+            msg = f"XML decode OK"
+        except Exception as err:
+            xmlo = None
+            msg = f"XML decode FAIL: {err}"
+
+        if xmlo:
+            self.txt.setPlainText(xmlo)
+
+        self.stbar.showMessage(msg)
 
 app = QApplication([])
 window = MainWindow()
