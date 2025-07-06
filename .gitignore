@@ -2,3 +2,4 @@ packenv
 dist
 build
 .idea
+gedext.spec
