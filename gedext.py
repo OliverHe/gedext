@@ -1,8 +1,7 @@
 #from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QAction, QFont
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, \
-    QPlainTextEdit, QVBoxLayout, QHBoxLayout, QStackedLayout, QPushButton, \
-    QWidget, QLabel
+    QPlainTextEdit, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QLabel
 
 import globals
 
@@ -28,11 +27,8 @@ class MainWindow(QMainWindow):
         self.txt = QPlainTextEdit()
         self.txt.setFont(font)
 
-        self.txtspace = QStackedLayout()
-        self.txtspace.addWidget(self.txt)
-
         pagelayout.addLayout(button_layout)
-        pagelayout.addLayout(self.txtspace)
+        pagelayout.addWidget(self.txt)
 
         btn = QPushButton("B64 decode")
         btn.pressed.connect(self.btn_b64_clicked)
