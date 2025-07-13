@@ -1,7 +1,8 @@
 #from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtGui import QAction, QFont
+from PyQt6.QtGui import QAction, QFont, QKeySequence
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStatusBar, \
     QPlainTextEdit, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QLabel
+from time import localtime, strftime
 
 import globals
 
@@ -54,10 +55,21 @@ class MainWindow(QMainWindow):
 
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
+        edit_menu = menu.addMenu("&Edit")
         help_menu = menu.addMenu("&Help")
+
         actn_about = QAction("&About", self)
         actn_about.triggered.connect(self.actn_about_clicked)
         help_menu.addAction(actn_about)
+
+        actn_quit = QAction("&Quit", self)
+        actn_quit.triggered.connect(self.actn_quit_clicked)
+        file_menu.addAction(actn_quit)
+
+        actn_tstamp = QAction("Insert &timestamp", self)
+        actn_tstamp.triggered.connect(self.actn_tstamp_clicked)
+        actn_tstamp.setShortcut(QKeySequence("Alt+Shift+t"))
+        edit_menu.addAction(actn_tstamp)
 
         widget = QWidget()
         widget.setLayout(pagelayout)
@@ -68,6 +80,13 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(widget)
         self.setStatusBar(self.stbar)
+
+    def actn_tstamp_clicked(self):
+        tstamp = strftime("%Y-%m-%d %H:%M:%S", localtime())
+        self.txt.appendPlainText(str(tstamp) + ': ')
+
+    def actn_quit_clicked(self):
+        app.quit()
 
     def actn_about_clicked(self):
         dlg = AboutDialog()
@@ -95,7 +114,7 @@ class MainWindow(QMainWindow):
 
         self.stbar.showMessage(msg)
 
-        #Replace text buffer with result
+        # Replace text buffer with result
         if res:
             self.txt.setPlainText(res)
 
@@ -123,8 +142,8 @@ class MainWindow(QMainWindow):
 
     def x509_obj2str(self, o):
         res = ''
-        for attrb in o:
-            res = res + ', ' + attrb.oid._name + ': ' + attrb.value
+        for attr in o:
+            res = res + ', ' + attr.oid._name + ': ' + attr.value
         return res[2:]
 
     def btn_x509_clicked(self):
@@ -153,17 +172,17 @@ class MainWindow(QMainWindow):
             outp = outp + f"Not valid before: {cert.not_valid_before_utc}\n"
             outp = outp + f"Not valid after : {cert.not_valid_after_utc}\n\n"
             # print('Extensions : ' + _obj2str(cert.extensions))
-            for attrb in cert.extensions:
-                if attrb.oid._name in ['subjectAltName']:
+            for attr in cert.extensions:
+                if attr.oid._name in ['subjectAltName']:
                     outp = outp + '\nSAN: '
-                    for item in attrb.value._general_names:
+                    for item in attr.value._general_names:
                         outp = outp + item.value + "\n     "
 
-                if attrb.oid._name in ['keyUsage',
+                if attr.oid._name in ['keyUsage',
                                        'basicConstraints',
                                        'subjectKeyIdentifier',
                                        'authorityKeyIdentifier']:
-                    outp = outp + str(attrb.value) + "\n"
+                    outp = outp + str(attr.value) + "\n"
 
             self.txt.setPlainText(outp)
 

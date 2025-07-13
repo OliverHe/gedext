@@ -34,6 +34,7 @@ Currently there are four buttons:
 * 0.2 - Show version in statusbar, switch to plaintextedit, use other cert for testing
 * 0.3 - Use different file for about dialog which also necessitates a globals file.
 * 0.4 - Expand about dialog, use minidom for xml prettyprinting.
+* 0.5 - Add actions including a timestamp insert.
 
 ## TODO
 1. Cleanup specific x509 output
@@ -63,7 +64,7 @@ These are mostly as a reminder to myself
     python3 -m venv packenv
     source packenv/bin/activate
     pip3 install PyQt6 PyInstaller cryptography
-    pyinstaller gedext.py
+    pyinstaller --onefile gedext.py
 
 ### Windows
 #### First run
