@@ -13,6 +13,8 @@ from cryptography.hazmat.backends import default_backend
 import xml.dom.minidom
 
 from aboutDialog import AboutDialog
+from globals import txt_selected
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -71,6 +73,11 @@ class MainWindow(QMainWindow):
         actn_tstamp.setShortcut(QKeySequence("Alt+Shift+t"))
         edit_menu.addAction(actn_tstamp)
 
+        actn_nwlines = QAction("Convert &newlines", self)
+        actn_nwlines.triggered.connect(self.actn_nwlines_clicked)
+        actn_nwlines.setShortcut(QKeySequence("Alt+Shift+n"))
+        edit_menu.addAction(actn_nwlines)
+
         widget = QWidget()
         widget.setLayout(pagelayout)
 
@@ -80,6 +87,11 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(widget)
         self.setStatusBar(self.stbar)
+
+    def actn_nwlines_clicked(self):
+        txtstr = self.hpr_find_txtstr()
+        outp = txtstr.replace('\\n', '\n')
+        self.hpr_strep(outp)
 
     def actn_tstamp_clicked(self):
         tstamp = strftime("%Y-%m-%d %H:%M:%S", localtime())
@@ -92,13 +104,30 @@ class MainWindow(QMainWindow):
         dlg = AboutDialog()
         dlg.exec()
 
+    def hpr_find_txtstr(self):
+        # Get the text to be processed
+        cursor = self.txt.textCursor()
+        if cursor.hasSelection():
+            txtstr = cursor.selectedText()
+        else:
+            txtstr = self.txt.toPlainText()
+        return txtstr
+
+    def hpr_strep(self, o):
+        cursor = self.txt.textCursor()
+        if cursor.hasSelection():
+            cursor.deleteChar()
+            cursor.insertText(o)
+        else:
+            self.txt.setPlainText(o)
+
     def btn_clear_clicked(self):
         self.txt.setPlainText('')
         self.stbar.showMessage('Cleared all text')
 
     def btn_b64_clicked(self):
-        # Get all the text in the window
-        txtstr = self.txt.toPlainText()
+        # Get the text to be processed
+        txtstr = self.hpr_find_txtstr()
 
         # If there is nothing to save return early
         if not txtstr:
@@ -116,11 +145,11 @@ class MainWindow(QMainWindow):
 
         # Replace text buffer with result
         if res:
-            self.txt.setPlainText(res)
+            self.hpr_strep(res)
 
     def btn_json_clicked(self):
-        # Get all the text in the window
-        txtstr = self.txt.toPlainText()
+        # Get the text to be processed
+        txtstr = self.hpr_find_txtstr()
 
         # If there is nothing to save return early
         if not txtstr:
@@ -138,7 +167,7 @@ class MainWindow(QMainWindow):
 
         if res:
             outp=json.dumps(res, sort_keys=True, indent=4)
-            self.txt.setPlainText(outp)
+            self.hpr_strep(outp)
 
     def x509_obj2str(self, o):
         res = ''
@@ -147,8 +176,8 @@ class MainWindow(QMainWindow):
         return res[2:]
 
     def btn_x509_clicked(self):
-        # Get all the text in the window
-        txtstr = self.txt.toPlainText()
+        # Get the text to be processed
+        txtstr = self.hpr_find_txtstr()
 
         # If there is nothing to save return early
         if not txtstr:
@@ -184,11 +213,12 @@ class MainWindow(QMainWindow):
                                        'authorityKeyIdentifier']:
                     outp = outp + str(attr.value) + "\n"
 
-            self.txt.setPlainText(outp)
+            # Handover to helper function replacing the text in the window
+            self.hpr_strep(outp)
 
     def btn_xml_clicked(self):
-        # Get all the text in the window
-        txtstr = self.txt.toPlainText()
+        # Get the text to be processed
+        txtstr = self.hpr_find_txtstr()
 
         # If there is nothing to process, return early
         if not txtstr:
@@ -203,7 +233,7 @@ class MainWindow(QMainWindow):
             msg = f"XML decode FAIL: {err}"
 
         if xmlo:
-            self.txt.setPlainText(xmlo)
+            self.hpr_strep(xmlo)
 
         self.stbar.showMessage(msg)
 

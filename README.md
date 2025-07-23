@@ -35,6 +35,10 @@ Currently there are four buttons:
 * 0.3 - Use different file for about dialog which also necessitates a globals file.
 * 0.4 - Expand about dialog, use minidom for xml prettyprinting.
 * 0.5 - Add actions including a timestamp insert.
+* 0.6
+  * Use cursor to apply transformation only on selected text
+  * Introduce replace newlines to replace \n characters with actual newlines
+  * This together enables processing example01 fully
 
 ## TODO
 1. Cleanup specific x509 output
@@ -51,10 +55,9 @@ Currently there are four buttons:
     * Varying kinds of certificate validation
     * JSON minifying
     * XML minifying
-12. Split main python file according to function
-13. Figure out why title doesn't work in applications overview.
-14. See if I can apply the conversion only on selected text.
-15. Wonder about replacing minidom with lxml
+11. Split main python file according to function
+12. Figure out why title doesn't (always) work in applications overview.
+13. Wonder about replacing minidom with lxml
 
 ## Packaging
 These are mostly as a reminder to myself
@@ -66,6 +69,11 @@ These are mostly as a reminder to myself
     pip3 install PyQt6 PyInstaller cryptography
     pyinstaller --onefile gedext.py
 
+#### Subsequent runs
+
+    source packenv/bin/activate
+    pyinstaller --onefile gedext.py
+
 ### Windows
 #### First run
 * Install Git for Windows
@@ -74,5 +82,5 @@ These are mostly as a reminder to myself
 Use Git Bash as follows:
 
     python -m venv packenv
-    . packenv/Scripts/Activate
+    source packenv/Scripts/Activate
     Pyinstaller.exe --onefile --noconsole gedext.py
