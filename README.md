@@ -29,6 +29,12 @@ Currently there are four buttons:
 * XML: For XML validation and "beautifying"
 * Clear: For clearing all content
 
+Two more functions are present under the Edit menu:
+* Insert timestamp
+  * This is a throwback to my own (Dev)Ops days, where I used a shortcut in gedit to document which actions were taken at what time to an accuracy of a second (plus or minus the amount of time it took to switch back to the editor to use the function)
+* Convert newlines
+  * I often find "\n" characters in loglines or other output that makes reading those difficult. This function instantly replaces all occurrences of "\n" with actual newlines. 
+
 ## Versions
 * 0.1 - First version for github
 * 0.2 - Show version in statusbar, switch to plaintextedit, use other cert for testing
@@ -82,5 +88,11 @@ These are mostly as a reminder to myself
 Use Git Bash as follows:
 
     python -m venv packenv
+    source packenv/Scripts/Activate
+    Pyinstaller.exe --onefile --noconsole gedext.py
+
+#### Subsequent runs
+
+    git pull origin main
     source packenv/Scripts/Activate
     Pyinstaller.exe --onefile --noconsole gedext.py
