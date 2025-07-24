@@ -13,8 +13,6 @@ from cryptography.hazmat.backends import default_backend
 import xml.dom.minidom
 
 from aboutDialog import AboutDialog
-from globals import txt_selected
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
