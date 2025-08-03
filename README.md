@@ -71,19 +71,17 @@ Also there are two different schools of thought on XML modules, so maybe I'll re
 2. Convert buttons to QAction's
 3. Add those actions to a File menu
 4. Think about security implications (maybe I should do that sooner)
-5. Filter out binary MIME types when decoding base64
-6. Handoff binary results after base64 decoding to system
-7. Figure out packaging for Linux
-8. Figure out packaging for Windows
-9. Figure out packaging for MacOS
-10. Expand by allowing:
+5. Figure out packaging for Linux
+6. Figure out packaging for Windows
+7. Figure out packaging for MacOS
+8. Expand by allowing:
     * Base64 encoding
     * Varying kinds of certificate validation
     * JSON minifying
     * XML minifying
-11. Split main python file according to function
-12. Figure out why title doesn't (always) work in applications overview.
-13. Wonder about replacing minidom with lxml
+9. Split main python file according to function
+10. Figure out why title doesn't (always) work in applications overview.
+11. Wonder about replacing minidom with lxml
 
 ## Packaging
 These are mostly as a reminder to myself
