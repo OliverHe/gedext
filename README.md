@@ -21,8 +21,10 @@ work on Linux, Windows and macOS alike.
 
 ## Instructions for use
 Place the text to be processed in the main area and press a button.
+Optionally select the part you want processed. In this case only the
+selected part will be replaced if conversion is successful.
 
-Currently there are four buttons:
+Currently there are five buttons:
 * B64 decode: For Base64 decoding
 * json: For JSON validation and "beautifying"
 * X509: For reading PEM encoded certificates
@@ -35,6 +37,22 @@ Two more functions are present under the Edit menu:
 * Convert newlines
   * I often find "\n" characters in loglines or other output that makes reading those difficult. This function instantly replaces all occurrences of "\n" with actual newlines. 
 
+## Notes for each button
+### Base64 decode 
+Converts base64 encoded texts to clear text and displays the resulting string.  
+If the base64 data decodes to binary, the binary is saved as a temporary file and "given" to the OS.
+
+### X.509
+Basic function works, needs cleanup and expanding. For example some basic checks and explanations might be added
+Comparing keys to certs or validating a certificate chain might be possible
+
+### JSON
+Basic function works, syntax highlighting might be nice, but that would require a different textwidget
+
+### XML
+Basic function works, syntax highlighting might be nice, but that would require a different textwidget.  
+Also there are two different schools of thought on XML modules, so maybe I'll revisit the whole thing sometime.
+
 ## Versions
 * 0.1 - First version for github
 * 0.2 - Show version in statusbar, switch to plaintextedit, use other cert for testing
@@ -45,6 +63,8 @@ Two more functions are present under the Edit menu:
   * Use cursor to apply transformation only on selected text
   * Introduce replace newlines to replace \n characters with actual newlines
   * This together enables processing example01 fully
+* 0.7 - Introduce saving binary data to file and opening for base64
+  * Tested only on linux.
 
 ## TODO
 1. Cleanup specific x509 output

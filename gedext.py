@@ -6,8 +6,11 @@ from time import localtime, strftime
 
 import globals
 
-from base64 import b64decode
+import os
 import json
+import platform
+import subprocess
+from base64 import b64decode
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 import xml.dom.minidom
@@ -119,6 +122,28 @@ class MainWindow(QMainWindow):
         else:
             self.txt.setPlainText(o)
 
+    def hpr_showbin(self, b):
+        # Clean this up somehow. Filename is identical for darwin and linux, but not for windows
+        # Opening the file differs for all three, maybe writing differs too on Windows? --> to check
+
+        if platform.system() == 'Darwin':
+            fname = '/tmp/gedexttmp'
+            fout = open(fname, 'wb')
+            fout.write(b)
+            subprocess.call(('open', fname))
+        elif platform.system() == 'Windows':
+            fname = 'gedexttmp'
+            fout = open(fname, 'wb')
+            fout.write(b)
+            os.startfile(fname)
+        else:
+            fname = '/tmp/gedexttmp'
+            fout = open(fname, 'wb')
+            fout.write(b)
+            subprocess.call(('xdg-open', fname))
+
+        self.stbar.showMessage("Binary decoded, maybe you see it.")
+
     def btn_clear_clicked(self):
         self.txt.setPlainText('')
         self.stbar.showMessage('Cleared all text')
@@ -134,7 +159,10 @@ class MainWindow(QMainWindow):
 
         try:
             res = b64decode(txtstr).decode('UTF-8')
-            msg = f"Base64 decode OK"
+            msg = f"Base64 string decode OK"
+        except UnicodeDecodeError:
+            res = b64decode(txtstr)
+            msg = f"Base64 binary decode OK"
         except Exception as err:
             res = None
             msg = f"Base64 decode FAIL: {err}"
@@ -142,7 +170,9 @@ class MainWindow(QMainWindow):
         self.stbar.showMessage(msg)
 
         # Replace text buffer with result
-        if res:
+        if res and isinstance(res, bytes):
+            self.hpr_showbin(res)
+        elif res:
             self.hpr_strep(res)
 
     def btn_json_clicked(self):
